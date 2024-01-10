@@ -71,7 +71,7 @@ $ sudo sysctl -w net.ipv6.conf.all.forwarding=1
 **Install Calico networking and network policy for dual stack or IPv6 only** 
 
 ```
-$ vi custom-resources.yaml # 
+$ vi custom-resources.yaml 
 ```
 
 ```
