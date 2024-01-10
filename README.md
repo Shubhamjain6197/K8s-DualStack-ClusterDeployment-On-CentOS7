@@ -82,8 +82,8 @@ spec:
         nodeSelector: all()
 ```
  
-#### This section configures the Calico API server.
-#### For more information, see: https://projectcalico.docs.tigera.io/master/reference/installation/api#operator.tigera.io/v1.APIServer
+- This section configures the Calico API server.
+- For more information, see: https://projectcalico.docs.tigera.io/master/reference/installation/api#operator.tigera.io/v1.APIServer
 
 ```
 apiVersion: operator.tigera.io/v1
