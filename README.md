@@ -4,10 +4,13 @@ This Document defines the process to setup Kubernetes Dual Stack on Oracle Linux
 
 ## Below steps needs to be executed on Master and Worker Nodes. 
 
-- swapoff -a
-- yum install docker
-- systemctl enable docker --now
-- systemctl start docker --now
+```
+$ swapoff -a
+$ yum install docker
+$ systemctl enable docker --now
+$ systemctl start docker --now
+
+```
  
 - vi /etc/docker/daemon.json
 ```
