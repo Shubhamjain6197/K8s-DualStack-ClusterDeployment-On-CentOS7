@@ -9,17 +9,16 @@ $ swapoff -a
 $ yum install docker
 $ systemctl enable docker --now
 $ systemctl start docker --now
-
+$ vi /etc/docker/daemon.json
 ```
  
-$ vi /etc/docker/daemon.json
-
 ```
     {
     "exec-opts": ["native.cgroupdriver=systemd"]
     }
 ```
 
+```
 $ sudo tee /etc/yum.repos.d/kubernetes.repo <<EOF
 [kubernetes]
 name=Kubernetes
@@ -30,7 +29,7 @@ repo_gpgcheck=1
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 exclude=kube*
 EOF
-
+```
 
 ```
 $ sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
@@ -66,7 +65,9 @@ $ sudo sysctl -w net.ipv6.conf.all.forwarding=1
 ```
 ### Install Calico networking and network policy for dual stack or IPv6 only 
 
+```
 $ vi custom-resources.yaml
+```
 
 ```
 apiVersion: operator.tigera.io/v1
@@ -79,12 +80,12 @@ spec:
      # Note: The ipPools section cannot be modified post-install.
     ipPools:
       - blockSize: 26
-        cidr: 192.168.0.0/16
+        cidr: 192.168.0.0/16   #change this ipv4 as per kubectl init cmd ips
         encapsulation: IPIP
         natOutgoing: Enabled
         nodeSelector: all()
       - blockSize: 122
-        cidr: 2603:c021:4004:7208:e7fe:58b5:c0ea:93db/64
+        cidr: 2603:c021:4004:7208:e7fe:58b5:c0ea:93db/64  #change this ipv6 as per kubectl init cmd ips
         encapsulation: None
         natOutgoing: Enabled
         nodeSelector: all()
