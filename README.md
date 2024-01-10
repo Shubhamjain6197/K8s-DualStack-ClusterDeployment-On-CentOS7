@@ -2,10 +2,11 @@
 
 This Document defines the process to setup Kubernetes Dual Stack on Oracle Linux v8
 
-## Below steps needs to be executed on Master and Worker Nodes. 
+**Below steps needs to be executed on Master and Worker Nodes.**
 
 ```
 $ swapoff -a
+<!---Install Docker--->
 $ yum install docker
 $ systemctl enable docker --now
 $ systemctl start docker --now
@@ -63,7 +64,7 @@ $ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26
 
 $ sudo sysctl -w net.ipv6.conf.all.forwarding=1
 ```
-- Install Calico networking and network policy for dual stack or IPv6 only 
+**Install Calico networking and network policy for dual stack or IPv6 only** 
 
 ```
 $ vi custom-resources.yaml
@@ -91,8 +92,7 @@ spec:
         nodeSelector: all()
 ```
  
-- This section configures the Calico API server.
-- For more information, see: https://projectcalico.docs.tigera.io/master/reference/installation/api#operator.tigera.io/v1.APIServer
+**This section configures the Calico API server. For more information, see: https://projectcalico.docs.tigera.io/master/reference/installation/api#operator.tigera.io/v1.APIServer**
 
 ```
 apiVersion: operator.tigera.io/v1
