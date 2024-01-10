@@ -101,4 +101,6 @@ metadata:
   name: default
 spec: {}
 ```
+```
 $ kubectl get pods -A 
+```
