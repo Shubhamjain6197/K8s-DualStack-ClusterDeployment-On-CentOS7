@@ -6,10 +6,12 @@ This Document defines the process to setup Kubernetes Dual Stack on Oracle Linux
 
 ```
 $ swapoff -a
-<!---Install Docker--->
+
 $ yum install docker
+
 $ systemctl enable docker --now
 $ systemctl start docker --now
+
 $ vi /etc/docker/daemon.json
 ```
  
@@ -41,8 +43,10 @@ $ yum install ipvsadm iproute-tc -y
  
 $ sudo modprobe br_netfilter
 $ sudo sysctl --system
+
 $ sudo mkdir /etc/containerd
 $ sudo containerd config default > /etc/containerd/config.toml
+
 $ sudo systemctl restart containerd
 $ sudo systemctl restart kubelet
 ```
@@ -67,7 +71,7 @@ $ sudo sysctl -w net.ipv6.conf.all.forwarding=1
 **Install Calico networking and network policy for dual stack or IPv6 only** 
 
 ```
-$ vi custom-resources.yaml
+$ vi custom-resources.yaml # 
 ```
 
 ```
