@@ -7,7 +7,7 @@ Below steps needs to be executed on Master and Worker Nodes.
 - systemctl enable docker --now
 - systemctl start docker --now
  
-- vim /etc/docker/daemon.json
+- vi /etc/docker/daemon.json
 
     {
     "exec-opts": ["native.cgroupdriver=systemd"]
@@ -83,10 +83,11 @@ spec:
 #### This section configures the Calico API server.
 #### For more information, see: https://projectcalico.docs.tigera.io/master/reference/installation/api#operator.tigera.io/v1.APIServer
 
+```
 apiVersion: operator.tigera.io/v1
 kind: APIServer
 metadata:
   name: default
 spec: {}
- 
+```
 - kubectl get pods -A 
