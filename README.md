@@ -1,6 +1,8 @@
 # K8s Dual Stack Cluster On - Oracle Linux 
 
-Below steps needs to be executed on Master and Worker Nodes. 
+This Document defines the process to setup Kubernetes Dual Stack on Oracle Linux v8
+
+## Below steps needs to be executed on Master and Worker Nodes. 
 
 - swapoff -a
 - yum install docker
@@ -8,13 +10,13 @@ Below steps needs to be executed on Master and Worker Nodes.
 - systemctl start docker --now
  
 - vi /etc/docker/daemon.json
-
+```
     {
     "exec-opts": ["native.cgroupdriver=systemd"]
     }
-
 ```
-sudo tee /etc/yum.repos.d/kubernetes.repo <<EOF
+
+- sudo tee /etc/yum.repos.d/kubernetes.repo <<EOF
 [kubernetes]
 name=Kubernetes
 baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
@@ -24,7 +26,7 @@ repo_gpgcheck=1
 gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 exclude=kube*
 EOF
-```
+
 - sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 - sudo systemctl enable kubelet && sudo systemctl start kubelet
  
