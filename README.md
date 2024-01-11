@@ -14,12 +14,12 @@
 2. Start and enable Docker
 3. Join the worker node to the cluster using the token generated during master node initialization
 4. Set up the kubectl configuration
-5. Repeat steps 3 and 4 for the second worker node
+5. Repeat steps for the second worker node
 6. After completing these steps, you should have a Kubernetes cluster with one master node and two worker nodes. You can verify the cluster status using the kubectl command.
 
 ##
 
-## Here are the commands to set up a Kubernetes cluster with one master node and two worker nodes:
+### Here are the commands to set up a Kubernetes cluster with one master node and two worker nodes:
 
 ## On the Master Node:
 
