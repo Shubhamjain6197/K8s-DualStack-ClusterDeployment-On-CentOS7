@@ -25,7 +25,11 @@
 
 **Install Docker:**
 ```
-sudo yum install -y docker
+dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
+dnf list docker-ce
+dnf install docker-ce --nobest -y
+systemctl start docker
+systemctl enable docker
 ```
 **Start and enable Docker:**
 ```
