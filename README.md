@@ -31,6 +31,7 @@ dnf install docker-ce --nobest -y
 systemctl start docker
 systemctl enable docker
 ```
+```
 swapoff -a  #make sure this cmd is executed
 yum install docker
 systemctl enable docker --now
@@ -47,7 +48,9 @@ vi /etc/docker/daemon.json
 ```
 systemctl restart docker
 ```
+
 **Setup Kubernets repos:**
+
 ```
 sudo tee /etc/yum.repos.d/kubernetes.repo <<EOF
 [kubernetes]
