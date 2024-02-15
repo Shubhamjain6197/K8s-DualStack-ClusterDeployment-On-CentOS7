@@ -1,4 +1,4 @@
-### On the Master Node:
+### On the Master(Control Plane) Nodes:
 
 1. Install Docker
 2. Start and enable Docker
@@ -6,14 +6,15 @@
 4. Disable swap
 5. Initialize the master node using kubeadm
 6. Set up the kubectl configuration
-7. Install a pod network, such as Flannel
+7. Install a pod network, such as Calico,Flannel
+8. Assign role to worker nodes.
 
 ### On the Worker Nodes:
 
 1. Install Docker
 2. Start and enable Docker
-3. Join the worker node to the cluster using the token generated during master node initialization
-4. Set up the kubectl configuration
+3. Set up the kubectl configuration
+4. Join the worker node to the cluster using the token generated during master node initialization
 5. Repeat steps for the second worker node
 6. After completing these steps, you should have a Kubernetes cluster with one master node and two worker nodes. You can verify the cluster status using the kubectl command.
 
@@ -98,7 +99,7 @@ sudo systemctl restart kubelet
 
 ## On Master(Control Plane) only
 
-**Pull Kuneadm images and enable IPV4/6**
+**Pull Kubeadm images and enable IPV4/6**
 
 ```
 kubeadm config images pull
@@ -173,7 +174,6 @@ kubeadm join 10.0.0.74:6443 --token 455py3.xxxxxxxx \
 
 ```
 kubeadm token create --print-join-command
-
 ```
 ## Commands to be executed on Master(Control Plane) Nodes only
 
@@ -181,7 +181,6 @@ kubeadm token create --print-join-command
 
 ```
 kubectl label nodes worker-node-name kubernetes.io/role=worker-node
-
 ```
 
 *Repeat steps for the second worker node. After completing these steps, you should have a Kubernetes cluster with one master node and two worker nodes. You can verify the cluster status using the kubectl command.*
