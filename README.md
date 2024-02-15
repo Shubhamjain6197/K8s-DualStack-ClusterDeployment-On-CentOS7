@@ -41,7 +41,7 @@ docker info | grep -i cgroup
 ```
 ```
 vi /etc/docker/daemon.json
- 
+
 {
   "exec-opts": ["native.cgroupdriver=systemd"]
 }
@@ -112,7 +112,6 @@ sudo sysctl -w net.ipv6.conf.all.forwarding=1
 ```
 kubeadm init --pod-network-cidr=192.168.0.0/16,2001:db8:42:0::/56 --service-cidr=10.96.0.0/16,2001:db8:42:1::/112
 ```
-
 ```
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
@@ -120,7 +119,6 @@ sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
 export KUBECONFIG=/etc/kubernetes/kubelet.conf
 ```
-
 **Install CNI Tigera**
 ```
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/tigera-operator.yaml
@@ -150,7 +148,6 @@ spec:
         natOutgoing: Enabled
         nodeSelector: all()
 ---
-
 # This section configures the Calico API server.
 # For more information, see: https://projectcalico.docs.tigera.io/master/reference/installation/api#operator.tigera.io/v1.APIServer
 apiVersion: operator.tigera.io/v1
@@ -163,7 +160,6 @@ spec: {}
 kubectl apply -f custom-resources.yaml
 kubectl get pods -A 
 ```
-
 ## Commands to be executed on Worker Nodes only
 
 **Kubeadm inti commands will generate below command**
