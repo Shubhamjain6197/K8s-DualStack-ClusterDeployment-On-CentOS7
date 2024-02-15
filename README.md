@@ -184,16 +184,13 @@ kubectl label nodes worker-node-name kubernetes.io/role=worker-node
 
 ## Some usefull commands
 
-**Get Node Details**
-```
-kubectl get nodes
-```
 **Reset Kubeadm**
 ```
 kubeadm reset
 ```
 **Kubernetes Commands**
 ```
+kubectl get nodes
 kubectl get pods -A -o wide #this will give all the pod details in all namespaces
 kubectl get pods -n kube-system
 kubectl describe pod pod-name
