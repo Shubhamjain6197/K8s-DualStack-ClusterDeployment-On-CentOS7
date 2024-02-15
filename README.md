@@ -44,7 +44,7 @@ vi /etc/docker/daemon.json
 }
 
 systemctl restart docker
-
+```
 **Setup Kubernets repos:**
 ```
 sudo tee /etc/yum.repos.d/kubernetes.repo <<EOF
@@ -58,7 +58,6 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cl
 exclude=kube*
 EOF
 ```
-
 **Install kubeadm, kubelet, and kubectl:**
 ```
 sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
