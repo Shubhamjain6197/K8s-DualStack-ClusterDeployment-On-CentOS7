@@ -196,7 +196,7 @@ kubectl get nodes
 ```
 kubeadm reset
 ```
-**Kubernets Commands**
+**Kubernetes Commands**
 
 ```
 kubectl get pods -A -o wide # this will give all the pod details in all namespaces
