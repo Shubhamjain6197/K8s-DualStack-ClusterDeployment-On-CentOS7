@@ -106,11 +106,55 @@ sudo sysctl -w net.ipv6.conf.all.forwarding=1
 kubeadm init --pod-network-cidr=192.168.0.0/16,2001:db8:42:0::/56 --service-cidr=10.96.0.0/16,2001:db8:42:1::/112
 ```
 ```
- 	mkdir -p $HOME/.kube
- 	sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
- 	sudo chown $(id -u):$(id -g) $HOME/.kube/config
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
  
- 	export KUBECONFIG=/etc/kubernetes/kubelet.conf
+export KUBECONFIG=/etc/kubernetes/kubelet.conf
+```
+**Install CNI Tigera**
+```
+kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/tigera-operator.yaml
+
+```
+**Create Custom Resource file to setup Calico Network**
+```
+vi custom-resources.yaml
+
+```
+```
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+   # Configures Calico networking.
+  calicoNetwork:
+     # Note: The ipPools section cannot be modified post-install.
+    ipPools:
+      - blockSize: 26
+        cidr: 192.168.0.0/16
+        encapsulation: IPIP
+        natOutgoing: Enabled
+        nodeSelector: all()
+      - blockSize: 122
+        cidr: 2001:db8:42:0::/56
+        encapsulation: None
+        natOutgoing: Enabled
+        nodeSelector: all()
+---
+
+# This section configures the Calico API server.
+# For more information, see: https://projectcalico.docs.tigera.io/master/reference/installation/api#operator.tigera.io/v1.APIServer
+apiVersion: operator.tigera.io/v1
+kind: APIServer
+metadata:
+  name: default
+spec: {}
+```
+```
+kubectl apply -f custom-resources.yaml
+kubectl get pods -A 
 ```
 
 *Repeat steps for the second worker node. After completing these steps, you should have a Kubernetes cluster with one master node and two worker nodes. You can verify the cluster status using the kubectl command.*
