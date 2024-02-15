@@ -167,7 +167,7 @@ kubectl get pods -A
 kubeadm join 10.0.0.74:6443 --token 455py3.xxxxxxxx \
         --discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxx
 ```
-*If you lose join commands you can regenerate it by running below command on master node as join command us valid only for 24 hours.*
+*If you loose join commands you can regenerate it by running below command on master node as join command us valid only for 24 hours.*
 
 ```
 kubeadm token create --print-join-command
@@ -193,13 +193,18 @@ kubectl get nodes
 kubeadm reset
 ```
 **Kubernetes Commands**
-
 ```
-kubectl get pods -A -o wide # this will give all the pod details in all namespaces
+kubectl get pods -A -o wide #this will give all the pod details in all namespaces
+kubectl get pods -n kube-system
+kubectl describe pod pod-name
+kubectl logs -f pod-name
 ```
 
-**Command to disable security issues.**
+**Command to disable security and firewall issues.**
 ```
 setenforce 0
 sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+service firewalld stop
+Iptables -L
+Iptables -F
 ```
