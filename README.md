@@ -182,6 +182,12 @@ kubectl label nodes worker-node-name kubernetes.io/role=worker-node
 
 *Repeat steps for the second worker node. After completing these steps, you should have a Kubernetes cluster with one master node and two worker nodes. You can verify the cluster status using the kubectl command.*
 
+**Sampel application to test the setup**
+
+```
+https://github.com/dockersamples/example-voting-app
+```
+
 ## Some usefull commands
 
 **Reset Kubeadm**
