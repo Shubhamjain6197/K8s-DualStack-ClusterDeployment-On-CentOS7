@@ -21,7 +21,7 @@
 
 ### Here are the commands to set up a Kubernetes cluster with one master node and two worker nodes:
 
-## On the Master Node:
+## On the Master(Control Plane) Node & Worker Nodes:
 
 **Install Docker:**
 ```
@@ -64,12 +64,15 @@ sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
 sudo systemctl enable kubelet && sudo systemctl start kubelet
 
 ```
-** Setup Routes**
+
+**Setup Routes**
+
 ```
 yum install iproute-tc
-```
 
-** sysctl params required by setup, params persist across reboot ** 
+```
+**Sysctl params required by setup, params persist across reboot** 
+
 ```
 cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
 net.bridge.bridge-nf-call-iptables  = 1
@@ -77,7 +80,8 @@ net.bridge.bridge-nf-call-ip6tables = 1
 net.ipv4.ip_forward                 = 1
 EOF
 ```
-** Apply sysctl params without reboot **
+
+**Apply sysctl params without reboot**
 ```
 sudo sysctl --system
 
