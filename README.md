@@ -108,25 +108,26 @@ sudo sysctl -w net.ipv6.conf.all.forwarding=1
 ```
 
 **Intialize Kubeadm for Master(Control Plane) Node**
+
 ```
 kubeadm init --pod-network-cidr=192.168.0.0/16,2001:db8:42:0::/56 --service-cidr=10.96.0.0/16,2001:db8:42:1::/112
 ```
+
 ```
 mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
- 
+
 export KUBECONFIG=/etc/kubernetes/kubelet.conf
 ```
+
 **Install CNI Tigera**
 ```
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/tigera-operator.yaml
-
 ```
 **Create Custom Resource file to setup Calico Network**
 ```
 vi custom-resources.yaml
-
 ```
 ```
 apiVersion: operator.tigera.io/v1
@@ -195,7 +196,6 @@ kubectl get nodes
 ```
 kubeadm reset
 ```
-
 **Kubernets Commands**
 
 ```
