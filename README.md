@@ -30,19 +30,21 @@ dnf list docker-ce
 dnf install docker-ce --nobest -y
 systemctl start docker
 systemctl enable docker
-
+```
 swapoff -a  #make sure this cmd is executed
 yum install docker
 systemctl enable docker --now
 systemctl start docker --now
 docker info | grep -i cgroup
-
+```
+```
 vi /etc/docker/daemon.json
  
 {
   "exec-opts": ["native.cgroupdriver=systemd"]
 }
-
+```
+```
 systemctl restart docker
 ```
 **Setup Kubernets repos:**
@@ -91,7 +93,7 @@ sudo systemctl restart containerd
 sudo systemctl restart kubelet
 ```
 
-## Commands to be executed on Master(Control Plane) only
+## On Master(Control Plane) only
 
 **Pull Kuneadm images and enable IPV4/6**
 
@@ -155,6 +157,28 @@ spec: {}
 ```
 kubectl apply -f custom-resources.yaml
 kubectl get pods -A 
+```
+
+## Commands to be executed on Worker Nodes only
+
+**Kubeadm inti commands will generate below command**
+```
+kubeadm join 10.0.0.74:6443 --token 455py3.xxxxxxxx \
+        --discovery-token-ca-cert-hash sha256:xxxxxxxxxxxxx
+```
+*If you lose join commands you can regenerate it by running below command on master node as join command us valid only for 24 hours.*
+
+```
+kubeadm token create --print-join-command
+
+```
+## Commands to be executed on Master(Control Plane) Nodes only
+
+**Now we need to assign role to newly setup worker node**
+
+```
+kubectl label nodes worker-node-name kubernetes.io/role=worker-node
+
 ```
 
 *Repeat steps for the second worker node. After completing these steps, you should have a Kubernetes cluster with one master node and two worker nodes. You can verify the cluster status using the kubectl command.*
