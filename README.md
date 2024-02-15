@@ -184,3 +184,26 @@ kubectl label nodes worker-node-name kubernetes.io/role=worker-node
 ```
 
 *Repeat steps for the second worker node. After completing these steps, you should have a Kubernetes cluster with one master node and two worker nodes. You can verify the cluster status using the kubectl command.*
+
+## Some usefull commands
+
+**Get Node Details**
+```
+kubectl get nodes
+```
+**Reset Kubeadm**
+```
+kubeadm reset
+```
+
+**Kubernets Commands**
+
+```
+kubectl get pods -A -o wide # this will give all the pod details in all namespaces
+```
+
+**Command to disable security issues.**
+```
+setenforce 0
+sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+```
