@@ -30,59 +30,64 @@ dnf list docker-ce
 dnf install docker-ce --nobest -y
 systemctl start docker
 systemctl enable docker
+
+swapoff -a  #make sure this cmd is executed
+yum install docker
+systemctl enable docker --now
+systemctl start docker --now
+docker info | grep -i cgroup
+
+vi /etc/docker/daemon.json
+ 
+{
+  "exec-opts": ["native.cgroupdriver=systemd"]
+}
+
+systemctl restart docker
+
+**Setup Kubernets repos:**
 ```
-**Start and enable Docker:**
+sudo tee /etc/yum.repos.d/kubernetes.repo <<EOF
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+exclude=kube*
+EOF
 ```
-sudo systemctl start docker
-sudo systemctl enable docker
-```
+
 **Install kubeadm, kubelet, and kubectl:**
 ```
-sudo yum install -y kubeadm kubelet kubectl
-```
-**Disable swap:**
-```
-sudo swapoff -a
-```
-**Configure kubeadm to initialize the master node:**
-```
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16
-```
-**Set up the kubectl configuration:**
-```
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-```
-**Install a pod network, such as Flannel or Tigara:**
-```
-kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+sudo yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+sudo systemctl enable kubelet && sudo systemctl start kubelet
 
-kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.26.1/manifests/tigera-operator.yaml
+```
+** Setup Routes**
+```
+yum install iproute-tc
+```
 
-kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+** sysctl params required by setup, params persist across reboot ** 
 ```
-## On the each Worker Nodes:
+cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+```
+** Apply sysctl params without reboot **
+```
+sudo sysctl --system
 
-**Install Docker:**
+sudo mkdir /etc/containerd
+sudo containerd config default > /etc/containerd/config.toml
+sudo systemctl restart containerd
+sudo systemctl restart kubelet
 ```
-sudo yum install -y docker
-```
-**Start and enable Docker:**
-```
-sudo systemctl start docker
-sudo systemctl enable docker
-```
-**Join the worker node to the cluster using the token generated during master node initialization:**
-```
-kubeadm join --token <token> <master-ip>:<master-port> --discovery-token-ca-cert-hash sha256:<hash>
-```
-*Replace <token> with the token generated during master node initialization, <master-ip> with the IP address of the master node, <master-port> with the port used by the Kubernetes API server (usually 6443), and <hash> with the SHA-256 hash of the discovery token certificate.*
 
-**Set up the kubectl configuration:**
-```
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-```
+
+
 *Repeat steps for the second worker node. After completing these steps, you should have a Kubernetes cluster with one master node and two worker nodes. You can verify the cluster status using the kubectl command.*
