@@ -24,6 +24,16 @@
 
 ## On the Master(Control Plane) Node & Worker Nodes:
 
+**Disable Swap and Firewalld**
+```
+swapoff -a
+(crontab -l 2>/dev/null; echo "@reboot /sbin/swapoff -a") | crontab - || true
+setenforce 0
+sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+systemctl disable firewalld
+systemctl stop firewalld
+
+```
 **Install Docker:**
 ```
 dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo
@@ -201,13 +211,4 @@ kubectl get pods -A -o wide #this will give all the pod details in all namespace
 kubectl get pods -n kube-system
 kubectl describe pod pod-name
 kubectl logs -f pod-name
-```
-
-**Command to disable security and firewall issues.**
-```
-setenforce 0
-sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
-service firewalld stop
-Iptables -L
-Iptables -F
 ```
