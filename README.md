@@ -20,7 +20,7 @@
 
 ##
 
-### Here are the commands to set up a Kubernetes cluster with one master node and two worker nodes:
+### Here are the commands to set up a Kubernetes cluster with one master node and multiple worker nodes:
 
 ## On the Master(Control Plane) Node & Worker Nodes:
 
