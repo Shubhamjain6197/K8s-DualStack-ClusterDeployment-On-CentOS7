@@ -43,7 +43,6 @@ systemctl start docker
 systemctl enable docker
 ```
 ```
-swapoff -a  #make sure this cmd is executed
 yum install docker
 systemctl enable docker --now
 systemctl start docker --now
